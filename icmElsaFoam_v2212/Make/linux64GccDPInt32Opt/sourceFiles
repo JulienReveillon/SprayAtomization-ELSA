@@ -1,0 +1,4 @@
+SOURCE = \
+icmElsaFoam.C \
+
+# sources

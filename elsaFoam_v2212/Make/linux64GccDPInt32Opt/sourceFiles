@@ -1,0 +1,4 @@
+SOURCE = \
+elsaFoam.C \
+
+# sources
