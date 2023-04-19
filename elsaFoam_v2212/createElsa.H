@@ -113,35 +113,36 @@ dimensionedScalar cstElsaSigmaMin
 (
     "cstElsaSigmaMin",
     dimensionSet(0,0,0,0,0,0,0),
-    elsaProperties.lookup("cstElsaSigmaMin")
+    elsaProperties
 );
 
 dimensionedScalar elsaSurfaceTensionCoef
 (
     "elsaSurfaceTensionCoef",
     dimensionSet(1,0,-2,0,0,0,0),
-    elsaProperties.lookup("elsaSurfaceTensionCoef")
+    elsaProperties
 );
 
 dimensionedScalar webEquilMod
 (
     "webEquilMod",
     dimensionSet(0,0,0,0,0,0,0),
-    elsaProperties.lookup("webEquilMod")
+    elsaProperties
 );
 
 dimensionedScalar elsaWeberEquil
 (
     "elsaWeberEquil",
     dimensionSet(0,0,0,0,0,0,0),
-    elsaProperties.lookup("elsaWeberEquil") 
+    elsaProperties 
 );
 
 dimensionedScalar cTurbElsaSigmaPrime
 (
     "cTurbElsaSigmaPrime",
     dimensionSet(0,0,0,0,0,0,0),
-    elsaProperties.lookup("cTurbElsaSigmaPrime") );
+    elsaProperties
+);
 
 dimensionedScalar elsaTinyNut
 (
