@@ -52,6 +52,13 @@
 
     sigmaRatio.boundaryFieldRef() = sigmaPrime.boundaryField();
 
+     surfaceScalarField phiSigma
+     (
+         "phiSigma",
+         (phi - phiSigmaLag)
+     );
+     
+
     fvScalarMatrix sigmaPrimeEqn
     (
         fvm::ddt(sigmaPrime)
@@ -75,7 +82,7 @@
     sigmaPrimeEqn.relax();
     sigmaPrimeEqn.solve();
 
-    sigmaPrime.max(0.0); //?????
+    sigmaPrime.max(0.0); 
 
     sigma.primitiveFieldRef() = 
     (
@@ -144,6 +151,7 @@
                 IRQg[celli] = 0.0;
             }
       }
+
     }
 
     forAll(mesh.cells(),celli)
@@ -161,6 +169,12 @@
           else
               cAlphaField[celli] = mixture.cAlpha();
       }
+
+    if (cAlphaField[celli] < 0.5 )
+        tagDiffusion[celli] = 1;
+
+    else
+        tagDiffusion[celli] = 0;  
 
     }
 
@@ -206,5 +220,17 @@
     //=======end==============================================
 
     IRQk.primitiveFieldRef() = 1/(mag(kappaDeltaX)+IRQkTiny);
+
+    dimensionedVector vectorNull("vectorNull", dimensionSet(0,1,-1,0,0,0,0), pTraits<vector>::zero);
+
+    volVectorField NuGradAlpha ((Dab + alphatab*turbulence->nut())*fvc::grad(alpha1));
+
+    forAll(mesh.cells(),celli)
+    {
+  	if (alpha1[celli]<1e-04)
+    	    UaveLiq[celli] = vectorNull.value();
+    	else
+    	    UaveLiq[celli] = U[celli] - ( NuGradAlpha[celli] / alpha1[celli] );
+    }
 
 }

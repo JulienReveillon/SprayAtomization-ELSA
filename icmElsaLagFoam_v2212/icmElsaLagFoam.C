@@ -107,13 +107,14 @@ int main(int argc, char *argv[])
     #include "createAlphaFluxes.H"
     #include "initCorrectPhi.H"
     #include "createUfIfPresent.H"
+    #include "createClouds.H"
     
     if (!LTS)
     {
         #include "CourantNo.H"
         #include "setInitialDeltaT.H"
     }
-
+    
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
     Info<< "\nStarting time loop\n" << endl;
 
@@ -131,8 +132,6 @@ int main(int argc, char *argv[])
             #include "alphaCourantNo.H"
             #include "setDeltaT.H"
         }
-
-        #include "createClouds.H"
 
         ++runTime;
 

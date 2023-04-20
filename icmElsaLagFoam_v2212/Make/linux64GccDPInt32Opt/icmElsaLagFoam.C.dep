@@ -1261,6 +1261,7 @@ initCorrectPhi.H \
 correctPhi.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/continuityErrs.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/createUfIfPresent.H \
+createClouds.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/CourantNo.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/setInitialDeltaT.H \
 $(WM_PROJECT_DIR)/src/dynamicFvMesh/lnInclude/readDyMControls.H \
@@ -1268,7 +1269,6 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/readTimeControls.H \
 $(WM_PROJECT_DIR)/applications/solvers/multiphase/VoF/setRDeltaT.H \
 $(WM_PROJECT_DIR)/applications/solvers/multiphase/VoF/alphaCourantNo.H \
 $(WM_PROJECT_DIR)/applications/solvers/multiphase/VoF/setDeltaT.H \
-createClouds.H \
 createLag.H \
 $(WM_PROJECT_DIR)/src/dynamicFvMesh/lnInclude/meshCourantNo.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/alphaControls.H \
