@@ -1,0 +1,180 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       dictionary;
+    location    "constant";
+    object      particleProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solution
+{
+    active          true;
+    coupled         true;
+    transient       yes;
+    cellValueSourceCorrection off;
+
+    sourceTerms
+    {
+        schemes
+        {
+            rho             explicit 1;
+            U               explicit 1;
+            Yi              explicit 1;
+            h               explicit 1;
+            radiation       explicit 1;
+        }
+    }
+
+    interpolationSchemes
+    {
+        rho             cell;
+        U               cellPoint;
+        mu      	cell;
+        /*T               cell;
+        Cp              cell;
+        p               cell;*/
+    }
+
+    integrationSchemes
+    {
+        U               analytical;
+        //T               analytical;
+    }
+}
+
+
+constantProperties
+{
+    //T0              320;
+
+    // place holders for rho0 and Cp0 - reset from liquid props using T0
+    rho0            1000;
+    sigma0		0.07;
+    mu0			0.001;
+    /*Cp0             4187;
+
+    youngsModulus   1e9;
+    poissonsRatio   0.35;
+
+    epsilon0        1;
+    f0              0.5;
+    Pr              0.7;
+    Tvap            273;
+    Tbp             373;
+
+    constantVolume  false;*/
+}
+
+
+subModels
+{
+    particleForces
+    {
+        sphereDrag;
+    }
+
+    //breakupModel    none; // ReitzKHRT;
+
+
+
+    dispersionModel none;
+        /*	gradientDispersionRAS
+	none
+	stochasticDispersionRAS
+	myStochasticModel (change the gasViscosity within the class)
+    */
+
+    patchInteractionModel none;
+    
+    collisionModel none;
+
+    //heatTransferModel none;
+
+    //compositionModel none;
+
+    //phaseChangeModel none;
+
+    surfaceFilmModel none;
+
+    //atomizationModel none;
+
+    //breakupModel    none; // ReitzKHRT;
+
+    stochasticCollisionModel none;
+
+    //radiation       off;
+
+    /*standardWallInteractionCoeffs
+    {
+        type            rebound;
+    }
+
+    RanzMarshallCoeffs
+    {
+        BirdCorrection  true;
+    }
+
+    singlePhaseMixtureCoeffs
+    {
+        phases
+        (
+            liquid
+            {
+                C7H16               1;
+            }
+        );
+    }
+
+    liquidEvaporationBoilCoeffs
+    {
+        enthalpyTransfer enthalpyDifference;
+
+        activeLiquids    ( C7H16 );
+    }*/
+
+    ReitzDiwakarCoeffs
+    {
+        solveOscillationEq yes;
+        Cbag            6;
+        Cb              0.785;
+        Cstrip          0.5;
+        Cs              10;
+    }
+
+
+    ReitzKHRTCoeffs
+    {
+        solveOscillationEq yes;
+        B0              0.61;
+        B1              40;
+        Ctau            1;
+        CRT             0.1;
+        msLimit         0.2;
+        WeberLimit      6;
+    }
+
+    TABCoeffs
+    {
+        y0              0;
+        yDot0           0;
+        Cmu             10;
+        Comega          8;
+        WeCrit          12;
+    }
+}
+
+
+cloudFunctions
+{}
+
+
+// ************************************************************************* //

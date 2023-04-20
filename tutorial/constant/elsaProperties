@@ -1,0 +1,57 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      elsaProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+cstElsaSigmaMin    cstElsaSigmaMin [0 0 0 0 0 0 0] 2.4;
+
+elsaSurfaceTensionCoef   elsaSurfaceTensionCoef [1 0 -2 0 0 0 0] 0.06;
+
+
+// Previous non validated value Lebas
+/*
+ElsaWeberEquil   ElsaWeberEquil [0 0 0 0 0 0 0] 1; // --activate the previous definition of Equli Weber
+                                                   // in sigmaPrimeEqn.H
+CTurbElsaSigmaPrime CTurbElsaSigmaPrime [0 0 0 0 0 0 0] 1;
+*/
+
+// Value from B. Duret IJMF 2013
+
+// model for equilibriume surface density choice between 
+//Lebas IJMF 2009 ==> webEquilMod=0.
+//webEquilMod webEquilMod[[0 0 0 0 0 0 0] 0.;
+//ElsaWeberEquil   ElsaWeberEquil [0 0 0 0 0 0 0] 1.;
+//CTurbElsaSigmaPrime CTurbElsaSigmaPrime [0 0 0 0 0 0 0] 1.;
+//  and Duret IJMF 2013  ==> webEquilMod=1.
+webEquilMod webEquilMod [0 0 0 0 0 0 0] 1.;
+elsaWeberEquil   elsaWeberEquil [0 0 0 0 0 0 0] 1.5;
+cTurbElsaSigmaPrime cTurbElsaSigmaPrime [0 0 0 0 0 0 0] 0.4;
+
+
+// Cavitation Only
+
+//microbuble for cavitation from boundary condition
+minElsaSigma minElsaSigma [0 -1 0 0 0 0 0] 4.03E+001;
+maxElsaSigma maxElsaSigma [0 -1 0 0 0 0 0] 1.0e99;
+
+
+minAlpha1 minAlpha1 [0 0 0 0 0 0 0] 7.60E-007;
+//microbuble for cavitation from boundary condition
+maxAlpha1 maxAlpha1 [0 0 0 0 0 0 0] 0.999999240; 
+
+rhoVapor   rhoVapor [1 -3 0 0 0 0 0] 60;
+
+// ************************************************************************* //

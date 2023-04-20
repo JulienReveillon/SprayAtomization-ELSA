@@ -1,0 +1,129 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{   
+    "alpha.*"
+    {
+      solver          smoothSolver;
+      smoother        GaussSeidel;
+      tolerance       1e-7;
+      relTol          0;
+      nSweeps         1;
+      nAlphaCorr        1;
+      nAlphaSubCycles   3;
+      cAlpha            1;
+    }
+    "pcorr.*"
+    {
+        solver           GAMG;
+        tolerance        1e-6;
+        relTol           0.001;
+
+        smoother         DICGaussSeidel;
+        nPreSweeps       0;
+        nPostSweeps      2;
+
+        cacheAgglomeration true;
+
+        nCellsInCoarsestLevel 100;
+        agglomerator     faceAreaPair;
+        mergeLevels      1;
+        maxIter          50;
+    };
+
+    p_rgh
+    {
+        solver           GAMG;
+        tolerance        0;
+        relTol           0.05;
+
+        smoother         DIC;
+        nPreSweeps       0;
+        nPostSweeps      2;
+
+        cacheAgglomeration true;
+
+        nCellsInCoarsestLevel 100;
+        agglomerator     faceAreaPair;
+        mergeLevels      1;
+        maxIter          20;
+    };
+
+    p_rghFinal
+    {
+        $p_rgh;
+        tolerance        1e-15;
+        relTol           0;
+        maxIter          50;
+    }
+
+    U
+    {
+        solver           smoothSolver;
+        smoother         GaussSeidel;
+        tolerance        1e-10;
+        relTol           0;
+        nSweeps          1;
+    };
+
+ 
+  "sigmaPrime.*"
+    {
+      solver          PBiCG;
+      preconditioner  DILU;
+      tolerance       1e-06;
+      relTol          0.01;
+    }
+
+    "(epsilonFinal|kFinal|UFinal)"
+    {
+        solver           smoothSolver;
+        smoother         GaussSeidel;
+        tolerance        1e-8;
+        relTol           0;
+        nSweeps          1;
+    };
+
+    "(k|epsilon)"
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-06;
+        relTol          0.01;
+    }
+
+}
+
+
+//PISO
+PIMPLE
+{
+    momentumPredictor yes;
+    nCorrectors       3;
+    nNonOrthogonalCorrectors 1;
+    nOuterCorrectors          1;
+}
+
+
+relaxationFactors
+{
+    k                 1;
+    U                 1;
+}
+
+// ************************************************************************* //
