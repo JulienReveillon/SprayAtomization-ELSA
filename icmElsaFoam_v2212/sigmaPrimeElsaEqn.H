@@ -132,7 +132,7 @@
       {
         gNormalInt[celli] = 0;
         magGradAlpha[celli] = 0;
-        IRQg[celli] = 1;
+        IRQg[celli] = 1; //IRQg > 0.25 --> stabilization --> ICM
         IRQsigma[celli] = 1;
         cAlphaField[celli]=1;
       }
@@ -141,24 +141,26 @@
         IRQsigma[celli] = (sigmaMin[celli])/ (sigma[celli]);
         if (gNormalInt[celli] < 0)
             {
-                IRQg[celli] = 0.0;
+                IRQg[celli] = 0.0; //IRQ<g0.25 --> ELSA
             }
       }
     }
 
     forAll(mesh.cells(),celli)
     {
-    if ( IRQsigma[celli] < 0.5 || mag(kappaDeltaX[celli]) > 1 )
+    //if ( IRQsigma[celli] < 0.5 || mag(kappaDeltaX[celli]) > 1 )
+    
+    if ( IRQsigma[celli] > 0.5 ) // --> ICM
       {
-          cAlphaField[celli] = 0;
+          cAlphaField[celli] = mixture.cAlpha(); // mixture.cAlpha==1 in general 
       }
-    else
+    else // ELSA or ICM depend on IRQg
       {
-          if (IRQg[celli] < 0.25  )
+          if (IRQg[celli] < 0.25 ) // ELSA
               
               cAlphaField[celli] = 0;
 
-          else
+          else //>0.25 --> ICM
               cAlphaField[celli] = mixture.cAlpha();
       }
 
@@ -185,10 +187,11 @@
     for(label faceI=0; faceI < nInternalFaces; faceI++)
     {
 
-      if (IRQsigmaF[faceI] < 0.5 || mag(kappaDeltaXF[faceI]) > 1  ) 
+      //if (IRQsigmaF[faceI] < 0.5 || mag(kappaDeltaXF[faceI]) > 1  ) 
+      if (IRQsigmaF[faceI] > 0.5 ) 
         
         {
-          cAlphaFieldF[faceI] = 0;
+          cAlphaFieldF[faceI] = mixture.cAlpha();
         }
 
       else
